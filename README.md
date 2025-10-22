@@ -1,4 +1,6 @@
 # EMPS
 Enterprise Production Monitoring System
 
-Система мониторинга производства Предприятия
+Система мониторинга производства предприятия
+
+Imitator <-> FTP <-> Controller -> Adapter -> Monitoring
