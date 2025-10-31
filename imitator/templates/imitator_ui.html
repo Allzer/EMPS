@@ -43,6 +43,91 @@
         .timestamp {
             color: #7f8c8d;
             font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .message {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #28a745;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #dc3545;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .ftp-form {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
         }
 
         .device-card {
@@ -51,17 +136,11 @@
             border-radius: 8px;
             padding: 20px;
             margin-bottom: 20px;
-            transition: transform 0.2s ease;
-        }
-
-        .device-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .device-header {
             display: flex;
-            justify-content: between;
+            justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
         }
@@ -88,15 +167,6 @@
             font-weight: bold;
             color: #34495e;
             margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-        }
-
-        .section-title::before {
-            content: "▶";
-            margin-right: 5px;
-            font-size: 10px;
-            transition: transform 0.3s ease;
         }
 
         .state-item {
@@ -146,148 +216,157 @@
             font-size: 12px;
         }
 
-        .controls {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .refresh-btn {
-            background: #3498db;
-            color: white;
-            border: none;
-            padding: 10px 20px;
+        .status-info {
+            background: #e2f0ff;
+            padding: 15px;
             border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background 0.3s ease;
-        }
-
-        .refresh-btn:hover {
-            background: #2980b9;
-        }
-
-        .collapsible {
-            cursor: pointer;
-        }
-
-        .collapsible.active .section-title::before {
-            transform: rotate(90deg);
-        }
-
-        .content {
-            max-height: 1000px;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .collapsible.active .content {
-            max-height: 0;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏭 Система мониторинния производства</h1>
-            <div class="timestamp" id="timestamp"></div>
+            <h1>🏭 Система мониторинга производства</h1>
+            <div class="timestamp">
+                Данные актуальны на: {{ timestamp }}
+            </div>
         </div>
+
+        {% if message %}
+        <div class="message">
+            {{ message }}
+            {% if ftp_result and ftp_result.filename %}
+            <br><strong>Файл:</strong> {{ ftp_result.filename }}
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if ftp_result and ftp_result.status == "error" %}
+        <div class="error">
+            <strong>Ошибка FTP:</strong> {{ ftp_result.error }}
+        </div>
+        {% endif %}
+
+        {% if ftp_status %}
+        <div class="status-info">
+            <h3>Статус FTP соединения:</h3>
+            <p><strong>Статус:</strong> {{ ftp_status.status }}</p>
+            {% if ftp_status.status == "connected" %}
+            <p><strong>Сообщение:</strong> {{ ftp_status.message }}</p>
+            {% else %}
+            <p><strong>Ошибка:</strong> {{ ftp_status.error }}</p>
+            {% endif %}
+            <p><strong>Конфигурация:</strong> {{ ftp_status.config.host }}:{{ ftp_status.config.port }}</p>
+        </div>
+        {% endif %}
 
         <div class="controls">
-            <button class="refresh-btn" onclick="loadData()">🔄 Обновить данные</button>
+            <form method="post" action="/imitator_emps/refresh" style="display: inline;">
+                <button type="submit" class="btn">🔄 Обновить данные</button>
+            </form>
+            
+            <form method="get" action="/imitator_emps/ftp-status" style="display: inline;">
+                <button type="submit" class="btn btn-warning">🔍 Проверить FTP</button>
+            </form>
         </div>
 
-        <div id="data-container"></div>
-    </div>
+        <div class="ftp-form">
+            <h3>Отправка данных на FTP</h3>
+            <form method="post" action="/imitator_emps/send-to-ftp">
+                <div class="form-group">
+                    <label for="filename">Имя файла (без .json):</label>
+                    <input type="text" id="filename" name="filename" value="production_data" required>
+                </div>
+                <button type="submit" class="btn btn-success">📤 Отправить на FTP</button>
+            </form>
+        </div>
 
-    <script>
-        function loadData() {
-            fetch('/imitator_emps/')
-                .then(response => response.json())
-                .then(data => {
-                    displayData(data);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    document.getElementById('data-container').innerHTML = 
-                        '<div class="error-item">Ошибка загрузки данных</div>';
-                });
-        }
-
-        function displayData(data) {
-            document.getElementById('timestamp').textContent = 
-                `Данные актуальны на: ${new Date(data.timestamp).toLocaleString('ru-RU')}`;
-            
-            const container = document.getElementById('data-container');
-            container.innerHTML = '';
-            
-            data.devices.forEach(device => {
-                container.appendChild(createDeviceCard(device));
-            });
-        }
-
-        function createDeviceCard(device) {
-            const card = document.createElement('div');
-            card.className = 'device-card';
-            
-            card.innerHTML = `
+        <div id="data-container">
+            {% for device in data.devices %}
+            <div class="device-card">
                 <div class="device-header">
-                    <div class="device-name">${device.device_name}</div>
-                    <div class="device-id">${device.device_id}</div>
+                    <div class="device-name">{{ device.device_name }}</div>
+                    <div class="device-id">{{ device.device_id }}</div>
                 </div>
                 <div class="device-info">
-                    <div>Тип: ${device.device_type}</div>
-                    <div>Серийный номер: ${device.serial_number}</div>
+                    <div><strong>Тип:</strong> {{ device.device_type }}</div>
+                    <div><strong>Серийный номер:</strong> {{ device.serial_number }}</div>
                 </div>
-            `;
 
-            // Состояния
-            if (device.state && device.state.length > 0) {
-                card.appendChild(createSection('Состояния', device.state.map(s => 
-                    `<div class="state-item">
-                        <strong>${s.name}</strong> (код: <span class="code">${s.code}</span>)<br>
-                        <small>${s.description}</small>
-                    </div>`
-                ).join('')));
-            }
+                {% if device.state %}
+                <div class="section">
+                    <div class="section-title">Состояния</div>
+                    {% for state in device.state %}
+                    <div class="state-item">
+                        <strong>{{ state.name }}</strong> (код: <span class="code">{{ state.code }}</span>)<br>
+                        <small>{{ state.description }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
 
-            // Ошибки
-            if (device.errors && device.errors.length > 0) {
-                card.appendChild(createSection('Ошибки и предупреждения', device.errors.map(error => {
-                    const className = error.severity === 'error' ? 'error-item' : 
-                                    error.severity === 'warning' ? 'warning-item' : 'info-item';
-                    return `<div class="${className}">
-                        <strong>${error.name}</strong> (код: <span class="code">${error.code}</span>)<br>
-                        <small>Уровень: ${error.severity} • ${new Date(error.timestamp).toLocaleString('ru-RU')}</small>
-                    </div>`;
-                }).join('')));
-            }
+                {% if device.errors %}
+                <div class="section">
+                    <div class="section-title">Ошибки и предупреждения</div>
+                    {% for error in device.errors %}
+                    <div class="
+                        {% if error.severity == 'error' %}error-item
+                        {% elif error.severity == 'warning' %}warning-item
+                        {% else %}info-item{% endif %}">
+                        <strong>{{ error.name }}</strong> (код: <span class="code">{{ error.code }}</span>)<br>
+                        <small>Уровень: {{ error.severity }} • {{ error.timestamp }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
 
-            // Части устройства
-            if (device.parts && device.parts.length > 0) {
-                const partsContent = device.parts.map(part => createDeviceCard(part).innerHTML).join('');
-                card.appendChild(createSection('Компоненты', `<div class="parts-section">${partsContent}</div>`));
-            }
+                {% if device.parts %}
+                <div class="section">
+                    <div class="section-title">Компоненты</div>
+                    <div class="parts-section">
+                        {% for part in device.parts %}
+                        <div class="device-card">
+                            <div class="device-header">
+                                <div class="device-name">{{ part.device_name }}</div>
+                                <div class="device-id">{{ part.device_id }}</div>
+                            </div>
+                            <div class="device-info">
+                                <div><strong>Тип:</strong> {{ part.device_type }}</div>
+                            </div>
 
-            return card;
-        }
+                            {% if part.state %}
+                            <div class="section">
+                                <div class="section-title">Состояния</div>
+                                {% for state in part.state %}
+                                <div class="state-item">
+                                    <strong>{{ state.name }}</strong> (код: <span class="code">{{ state.code }}</span>)<br>
+                                    <small>{{ state.description }}</small>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
 
-        function createSection(title, content) {
-            const section = document.createElement('div');
-            section.className = 'section collapsible';
-            section.innerHTML = `
-                <div class="section-title">${title}</div>
-                <div class="content">${content}</div>
-            `;
-            
-            section.querySelector('.section-title').addEventListener('click', function() {
-                this.parentElement.classList.toggle('active');
-            });
-            
-            return section;
-        }
-
-        // Загружаем данные при старте
-        document.addEventListener('DOMContentLoaded', loadData);
-    </script>
+                            {% if part.errors %}
+                            <div class="section">
+                                <div class="section-title">Ошибки</div>
+                                {% for error in part.errors %}
+                                <div class="warning-item">
+                                    <strong>{{ error.name }}</strong> (код: <span class="code">{{ error.code }}</span>)<br>
+                                    <small>{{ error.timestamp }}</small>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </body>
 </html>

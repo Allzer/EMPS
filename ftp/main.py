@@ -6,14 +6,19 @@ from pyftpdlib.servers import FTPServer
 from config import Config
 
 def add_user():
-    if os.path.isdir(Config.FOLDER_PATH) == False:
-        os.mkdir(Config.FOLDER_PATH)
-    authorizer.add_user(Config.USER_LOGIN, Config.USER_PSW, Config.FOLDER_PATH)
-
-def add_user():
-    if os.path.isdir(Config.FOLDER_PATH) == False:
-        os.mkdir(Config.FOLDER_PATH)
-    authorizer.add_user(Config.USER_LOGIN, Config.USER_PSW, Config.FOLDER_PATH)
+    # Создаем абсолютный путь к папке пользователя
+    abs_folder_path = os.path.abspath(Config.FOLDER_PATH)
+    if not os.path.isdir(abs_folder_path):
+        os.makedirs(abs_folder_path, exist_ok=True)
+        print(f"Создана папка: {abs_folder_path}")
+    
+    # Добавляем пользователя с полными правами
+    authorizer.add_user(
+        Config.USER_LOGIN, 
+        Config.USER_PSW, 
+        abs_folder_path, 
+        perm='elradfmwMT'  # Полные права
+    )
 
 # Создаем авторизатор
 authorizer = DummyAuthorizer()
@@ -23,7 +28,6 @@ authorizer = DummyAuthorizer()
 handler = FTPHandler
 handler.authorizer = authorizer
 
-# Устанавливаем порт для прослушивания (стандартный - 21)
 handler.banner = "pyftpdlib готов!"
 
 # Создаем FTP-сервер и запускаем его
