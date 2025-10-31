@@ -1,13 +1,23 @@
+import os
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
 
+from config import Config
+
+def add_user():
+    if os.path.isdir(Config.FOLDER_PATH) == False:
+        os.mkdir(Config.FOLDER_PATH)
+    authorizer.add_user(Config.USER_LOGIN, Config.USER_PSW, Config.FOLDER_PATH)
+
+def add_user():
+    if os.path.isdir(Config.FOLDER_PATH) == False:
+        os.mkdir(Config.FOLDER_PATH)
+    authorizer.add_user(Config.USER_LOGIN, Config.USER_PSW, Config.FOLDER_PATH)
+
 # Создаем авторизатор
 authorizer = DummyAuthorizer()
 # Добавляем пользователя "user" с паролем "12345" и доступом к каталогу "/home/user"
-authorizer.add_user("user", "12345", "/home/user")
-# Добавляем анонимного пользователя
-authorizer.add_anonymous("/home/ftp")
 
 # Создаем FTP-обработчик
 handler = FTPHandler
@@ -17,5 +27,7 @@ handler.authorizer = authorizer
 handler.banner = "pyftpdlib готов!"
 
 # Создаем FTP-сервер и запускаем его
-server = FTPServer(("0.0.0.0", 21), handler)
-server.serve_forever()
+if __name__ == '__main__':
+    add_user()
+    server = FTPServer((Config.IP_FTP_SERVER, Config.PORT_FTP_SERVER), handler)
+    server.serve_forever()
