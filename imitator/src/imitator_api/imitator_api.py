@@ -1,8 +1,8 @@
 import os
 import json
 import ftplib
+import socket
 from fastapi import APIRouter, Request, Form
-from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from datetime import datetime
 import asyncio
@@ -22,7 +22,7 @@ templates = Jinja2Templates(directory=templates_path)
 
 # Конфигурация FTP
 FTP_CONFIG = {
-    'host': 'localhost',
+    'host': '0.0.0.0',
     'port': 5005,
     'username': 'user',
     'password': '12345',
@@ -119,17 +119,17 @@ async def refresh_data(request: Request):
     })
 
 @router.post('/send-to-ftp')
-async def send_to_ftp(request: Request, filename: str = Form("production_data")):
+async def send_to_ftp(req: Request, filename: str = Form("production_data")):
     """Отправка данных на FTP через форму"""
-    if not filename.endswith('.json'):
-        filename += '.json'
-    
-    ftp_result = await ftp_client.upload_data(EMPS_STRYCTYRE, filename)
-    
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        data = json.dumps(EMPS_STRYCTYRE, ensure_ascii=False).encode('utf-8')
+        sock.connect((FTP_CONFIG["host"], FTP_CONFIG["port"]))
+        sock.sendall(data)
+        print(data)
+
     return templates.TemplateResponse("imitator_ui.html", {
-        "request": request,
+        "request": req,
         "data": EMPS_STRYCTYRE,
-        "ftp_result": ftp_result,
         "message": f"Данные отправлены на FTP в файл: {filename}",
         "timestamp": datetime.now().isoformat() + "Z"
     })
