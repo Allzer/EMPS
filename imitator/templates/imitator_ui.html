@@ -64,11 +64,29 @@
             border-left: 4px solid #dc3545;
         }
 
-        .controls {
+        .ftp-form {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
             margin-bottom: 20px;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
         }
 
         .btn {
@@ -94,40 +112,6 @@
 
         .btn-success:hover {
             background: #218838;
-        }
-
-        .btn-warning {
-            background: #ffc107;
-            color: #212529;
-        }
-
-        .btn-warning:hover {
-            background: #e0a800;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        .ftp-form {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
         }
 
         .device-card {
@@ -262,24 +246,10 @@
         </div>
         {% endif %}
 
-        <div class="controls">
-            <form method="post" action="/imitator_emps/refresh" style="display: inline;">
-                <button type="submit" class="btn">🔄 Обновить данные</button>
-            </form>
-            
-            <form method="get" action="/imitator_emps/ftp-status" style="display: inline;">
-                <button type="submit" class="btn btn-warning">🔍 Проверить FTP</button>
-            </form>
-        </div>
-
         <div class="ftp-form">
             <h3>Отправка данных на FTP</h3>
             <form method="post" action="/imitator_emps/send-to-ftp">
-                <div class="form-group">
-                    <label for="filename">Имя файла (без .json):</label>
-                    <input type="text" id="filename" name="filename" value="production_data" required>
-                </div>
-                <button type="submit" class="btn btn-success">📤 Отправить на FTP</button>
+                <button type="submit" class="btn btn-success">📤 Отправить всю структуру на FTP</button>
             </form>
         </div>
 
