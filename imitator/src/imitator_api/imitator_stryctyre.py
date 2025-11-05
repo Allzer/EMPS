@@ -1,8 +1,4 @@
-#TODO добавить везде время отправления datetime, добавить название системы
-
-
 from datetime import datetime
-
 
 EMPS_STRYCTYRE = {"timestamp": datetime.now().isoformat() + "Z",
         "system_name": "Производственный мониторинг v2.0",

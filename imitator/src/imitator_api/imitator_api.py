@@ -21,8 +21,6 @@ templates = Jinja2Templates(directory=templates_path)
 @router.get('/')
 async def get_info(request: Request):
     """Главная страница с данными и формами"""
-    # Автоматически отправляем данные на FTP при загрузке страницы
-    
     return templates.TemplateResponse("imitator_ui.html", {
         "request": request,
         "data": EMPS_STRYCTYRE,
