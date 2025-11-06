@@ -1,37 +1,39 @@
+import json
 import os
+import threading
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
 
 from config import Config
 
-def add_user():
-    # Создаем абсолютный путь к папке пользователя
-    abs_folder_path = os.path.abspath(Config.FOLDER_PATH)
-    if not os.path.isdir(abs_folder_path):
-        os.makedirs(abs_folder_path, exist_ok=True)
-        print(f"Создана папка: {abs_folder_path}")
+# class AdapterHandler(FTPHandler):
     
-    # Добавляем пользователя с полными правами
-    authorizer.add_user(
-        Config.USER_LOGIN, 
-        Config.USER_PSW, 
-        abs_folder_path, 
-        perm='elradfmwMT'  # Полные права
-    )
+#     @classmethod
+#     def on_file_received(self, file):
+        
+#         with open(file, 'r', encoding='utf-8') as file_handler:
+#             data = json.load(file_handler)
+#             print(data)
 
-# Создаем авторизатор
-authorizer = DummyAuthorizer()
-# Добавляем пользователя "user" с паролем "12345" и доступом к каталогу "/home/user"
-
-# Создаем FTP-обработчик
-handler = FTPHandler
-handler.authorizer = authorizer
-
-handler.banner = "pyftpdlib готов!"
 
 # Создаем FTP-сервер и запускаем его
 if __name__ == '__main__':
-    add_user()
-    server = FTPServer((Config.IP_FTP_SERVER, Config.PORT_FTP_SERVER), handler)
-    server.serve_forever()
+
+    #Обозначение каталога куда будет записан файл
+    abs_folder_path = os.path.abspath(os.path.dirname(__file__))
+    inputDir = os.path.join(abs_folder_path, Config.FOLDER_PATH)
+
+    #Добавляем пользователя
+    user = DummyAuthorizer()
+    user.add_user(Config.USER_LOGIN, Config.USER_PSW, inputDir, perm='elradfmwMT')
+    # user.add_anonymous(os.getcwd())
+
+    handler = FTPHandler
+    handler.authorizer = user
+
+    server = FTPServer((Config.IP_FTP_SERVER, Config.PORT_FTP_SERVER), FTPHandler)
+    
+    #запуск сервера в отдельном потоке
+    server_thred = threading.Thread(target=server.serve_forever)
+    server_thred.start()

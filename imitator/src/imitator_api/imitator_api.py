@@ -52,8 +52,6 @@ async def send_to_ftp(req: Request, filename: str = Form("production_data")):
         with open(file_path, "w+", encoding='utf-8') as fileHandler:
             fileHandler.write(json.dumps(EMPS_STRYCTYRE, indent=4, sort_keys=True, ensure_ascii=False))
 
-        with open(file_path, 'rb') as fobj:
-            session.storbinary("STOR " + file, fobj, 2048)
         session.quit
 
         if len(EMPS_STRYCTYRE) == 0:
