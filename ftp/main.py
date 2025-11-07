@@ -27,7 +27,7 @@ if __name__ == '__main__':
     #Добавляем пользователя
     user = DummyAuthorizer()
     user.add_user(Config.USER_LOGIN, Config.USER_PSW, inputDir, perm='elradfmwMT')
-    # user.add_anonymous(os.getcwd())
+    user.add_anonymous(os.getcwd())
 
     handler = FTPHandler
     handler.authorizer = user
