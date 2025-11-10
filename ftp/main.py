@@ -7,14 +7,9 @@ from pyftpdlib.servers import FTPServer
 
 from config import Config
 
-# class AdapterHandler(FTPHandler):
-    
-#     @classmethod
-#     def on_file_received(self, file):
-        
-#         with open(file, 'r', encoding='utf-8') as file_handler:
-#             data = json.load(file_handler)
-#             print(data)
+class AdapterHandler(FTPHandler):
+    def on_file_received(self, file):
+        print(file)
 
 
 # Создаем FTP-сервер и запускаем его
@@ -29,10 +24,10 @@ if __name__ == '__main__':
     user.add_user(Config.USER_LOGIN, Config.USER_PSW, inputDir, perm='elradfmwMT')
     user.add_anonymous(os.getcwd())
 
-    handler = FTPHandler
+    handler = AdapterHandler
     handler.authorizer = user
 
-    server = FTPServer((Config.IP_FTP_SERVER, Config.PORT_FTP_SERVER), FTPHandler)
+    server = FTPServer((Config.IP_FTP_SERVER, Config.PORT_FTP_SERVER), handler)
     
     #запуск сервера в отдельном потоке
     server_thred = threading.Thread(target=server.serve_forever)
