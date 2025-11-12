@@ -9,7 +9,10 @@ from config import Config
 
 class AdapterHandler(FTPHandler):
     def on_file_received(self, file):
-        print(file)
+        with open(file, 'r', encoding='utf-8') as file_handler:
+            data = json.load(file_handler)
+            print(data)
+        
 
 
 # Создаем FTP-сервер и запускаем его
