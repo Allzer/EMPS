@@ -5,3 +5,5 @@ class Config():
     FOLDER_PATH = 'data_path'
     USER_LOGIN = 'user'
     USER_PSW = '12345'
+
+    ADAPTER_URL = 'http://0.0.0.0:7000'

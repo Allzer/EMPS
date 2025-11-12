@@ -4,15 +4,23 @@ import threading
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
+import requests
 
 from config import Config
 
 class AdapterHandler(FTPHandler):
     def on_file_received(self, file):
-        with open(file, 'r', encoding='utf-8') as file_handler:
-            data = json.load(file_handler)
-            print(data)
-        
+
+        try:
+            with open(file, 'r', encoding='utf-8') as file_handler:
+                data = json.load(file_handler)
+        except Exception as e:
+            print(e)
+
+        adapter_url = Config.ADAPTER_URL
+        response = requests.post(url=adapter_url, data=json.dumps(data, ensure_ascii=False).encode('utf-8'))
+        print(response)
+
 
 
 # Создаем FTP-сервер и запускаем его
