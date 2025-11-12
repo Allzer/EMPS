@@ -5,7 +5,7 @@ from fastapi import APIRouter, Request, Form
 from fastapi.templating import Jinja2Templates
 from datetime import datetime
 
-from src.config import FTP_CONFIG, OUTPUT_DIR_FTP
+from src.config import FTP_CONFIG, OUTPUT_DIR_IM
 from src.imitator_api.imitator_stryctyre import EMPS_STRYCTYRE
 
 router = APIRouter(
@@ -42,15 +42,19 @@ async def send_to_ftp(req: Request, filename: str = Form("production_data")):
 
     if True:
         basedir = os.path.abspath(os.path.dirname(__file__))
-        output_dir = str(os.path.join(basedir, OUTPUT_DIR_FTP))
-        file = f'EMPS:{datetime.now().strftime("%Y_%m_%d_%H_%M_%S_%f")}.json'
+        output_dir = str(os.path.join(basedir, OUTPUT_DIR_IM))
+        output_path = os.path.join(os.path.dirname(basedir), output_dir)
+        file = f'EMPS_{datetime.now().strftime("%Y_%m_%d_%H_%M_%S_%f")}.json'
 
-        file_path = os.path.join(output_dir, file)
+        file_path = os.path.join(output_path, file)
 
         print(json.dumps(EMPS_STRYCTYRE, indent=4, sort_keys=True, ensure_ascii=False))
 
         with open(file_path, "w+", encoding='utf-8') as fileHandler:
             fileHandler.write(json.dumps(EMPS_STRYCTYRE, indent=4, sort_keys=True, ensure_ascii=False))
+
+        with open(file_path, "rb") as f:
+            session.storbinary(f"STOR {file}", f, 2048)
 
         session.quit
 
