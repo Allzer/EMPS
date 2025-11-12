@@ -1,5 +1,6 @@
 from datetime import datetime
 
+#TODO упростить структуру
 EMPS_STRYCTYRE = {"timestamp": datetime.now().isoformat() + "Z",
         "system_name": "Производственный мониторинг v2.0",
         "devices": [
