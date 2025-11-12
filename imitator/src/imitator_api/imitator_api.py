@@ -57,9 +57,7 @@ async def send_to_ftp(req: Request, filename: str = Form("production_data")):
             session.storbinary(f"STOR {file}", f, 2048)
 
         session.quit
-
-        if len(EMPS_STRYCTYRE) == 0:
-            os.remove(file_path)
+        os.remove(file_path)
 
     return templates.TemplateResponse("imitator_ui.html", {
         "request": req,
