@@ -1,0 +1,414 @@
+{
+    "devices": [
+        {
+            "device_id": "stank_vector_5000_001",
+            "device_name": "Токарно-фрезерный станок ЧПУ 'Вектор-5000'",
+            "device_type": "cnc_machine",
+            "errors": [
+                {
+                    "code": 3001,
+                    "name": "Предупреждение: Износ инструмента",
+                    "severity": "warning",
+                    "timestamp": "2025-11-12T18:29:39.574091Z"
+                }
+            ],
+            "parts": [
+                {
+                    "device_id": "spindle_main_001",
+                    "device_name": "Основной шпиндель",
+                    "device_type": "spindle",
+                    "parts": [],
+                    "state": [
+                        {
+                            "code": 1,
+                            "description": "Шпиндель вращается с заданной скоростью",
+                            "name": "Вращение"
+                        }
+                    ]
+                },
+                {
+                    "device_id": "coolant_system_001",
+                    "device_name": "Система подачи охлаждающей жидкости",
+                    "device_type": "coolant_system",
+                    "errors": [
+                        {
+                            "code": 7002,
+                            "name": "Сработал фильтр предварительной очистки",
+                            "severity": "info",
+                            "timestamp": "2025-11-12T10:15:39.574095Z"
+                        }
+                    ],
+                    "parts": [
+                        {
+                            "device_id": "sensor_coolant_pressure_001",
+                            "device_name": "Датчик давления СОЖ",
+                            "device_type": "sensor"
+                        }
+                    ],
+                    "state": [
+                        {
+                            "code": 10,
+                            "description": "Циркуляция охлаждающей жидкости активна",
+                            "name": "Включена"
+                        }
+                    ]
+                }
+            ],
+            "serial_number": "V5K-2024-001",
+            "state": [
+                {
+                    "code": 200,
+                    "description": "Станок выполняет программу №12345",
+                    "name": "В работе"
+                },
+                {
+                    "code": 50,
+                    "description": "Активная система охлаждения",
+                    "name": "Подача охлаждающей жидкости"
+                }
+            ]
+        },
+        {
+            "device_id": "cmm_precision_3d_001",
+            "device_name": "Координатно-измерительная машина 'Точность-3D'",
+            "device_type": "measurement_machine",
+            "errors": [],
+            "parts": [
+                {
+                    "device_id": "lamp_ready_001",
+                    "device_name": "Контрольная лампа 'Готов'",
+                    "device_type": "indicator_lamp",
+                    "state": [
+                        {
+                            "code": 1,
+                            "description": "Лампа горит зеленым цветом",
+                            "name": "Включена"
+                        }
+                    ]
+                }
+            ],
+            "serial_number": "C3D-2024-002",
+            "state": [
+                {
+                    "code": 100,
+                    "description": "Выполняется самокалибровка по эталону",
+                    "name": "Калибровка"
+                }
+            ]
+        },
+        {
+            "device_id": "welder_argon_m_001",
+            "device_name": "Роботизированный сварочный комплекс 'Аргон-M'",
+            "device_type": "welding_robot",
+            "errors": [
+                {
+                    "code": 4501,
+                    "name": "Низкий уровень газа",
+                    "severity": "warning",
+                    "timestamp": "2025-11-12T13:20:39.574104Z"
+                }
+            ],
+            "parts": [
+                {
+                    "device_id": "welding_torch_001",
+                    "device_name": "Сварочная горелка",
+                    "device_type": "welding_torch",
+                    "parts": [
+                        {
+                            "device_id": "sensor_torch_temp_001",
+                            "device_name": "Датчик температуры горелки",
+                            "device_type": "temperature_sensor",
+                            "state": [
+                                {
+                                    "code": 1,
+                                    "description": "Температура в пределах нормы: 45°C",
+                                    "name": "Норма"
+                                }
+                            ]
+                        }
+                    ],
+                    "state": [
+                        {
+                            "code": 25,
+                            "description": "Ток: 180А, напряжение: 22В",
+                            "name": "Активна"
+                        }
+                    ]
+                },
+                {
+                    "device_id": "positioning_system_001",
+                    "device_name": "Система позиционирования",
+                    "device_type": "positioning_system",
+                    "state": [
+                        {
+                            "code": 15,
+                            "description": "Погрешность: ±0.1 мм",
+                            "name": "Точное позиционирование"
+                        }
+                    ]
+                }
+            ],
+            "serial_number": "WAM-2024-003",
+            "state": [
+                {
+                    "code": 210,
+                    "description": "Выполняется сварка корпуса изделия АБ-123",
+                    "name": "Сварка детали"
+                },
+                {
+                    "code": 75,
+                    "description": "Аргон подается под давлением 0.5 МПа",
+                    "name": "Подача защитного газа"
+                }
+            ]
+        },
+        {
+            "device_id": "conveyor_transport_500_001",
+            "device_name": "Ленточный конвейер 'Транспорт-500'",
+            "device_type": "conveyor",
+            "errors": [
+                {
+                    "code": 5203,
+                    "name": "Предупреждение: Натяжение ленты",
+                    "severity": "warning",
+                    "timestamp": "2025-11-12T11:45:39.574108Z"
+                }
+            ],
+            "parts": [
+                {
+                    "device_id": "conveyor_motor_001",
+                    "device_name": "Приводной двигатель",
+                    "device_type": "electric_motor",
+                    "errors": [
+                        {
+                            "code": 6101,
+                            "name": "Повышенная температура",
+                            "severity": "info",
+                            "timestamp": "2025-11-12T14:10:39.574111Z"
+                        }
+                    ],
+                    "state": [
+                        {
+                            "code": 30,
+                            "description": "Обороты: 1450 об/мин, ток: 4.2А",
+                            "name": "Работа"
+                        }
+                    ]
+                },
+                {
+                    "device_id": "position_sensors_001",
+                    "device_name": "Система датчиков положения",
+                    "device_type": "sensor_system",
+                    "parts": [
+                        {
+                            "device_id": "photo_sensor_001",
+                            "device_name": "Фотоэлектрический датчик",
+                            "device_type": "sensor",
+                            "state": [
+                                {
+                                    "code": 1,
+                                    "description": "Контроль прохождения деталей",
+                                    "name": "Активен"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "serial_number": "CT5-2024-004",
+            "state": [
+                {
+                    "code": 180,
+                    "description": "Скорость ленты: 2.5 м/мин",
+                    "name": "Транспортировка"
+                }
+            ]
+        },
+        {
+            "device_id": "injection_molder_plast_300_001",
+            "device_name": "Термопластавтомат 'Пласт-300'",
+            "device_type": "injection_molding",
+            "errors": [],
+            "parts": [
+                {
+                    "device_id": "heating_block_001",
+                    "device_name": "Нагревательный блок",
+                    "device_type": "heating_system",
+                    "parts": [
+                        {
+                            "device_id": "heater_cartridge_001",
+                            "device_name": "ТЭН цилиндра",
+                            "device_type": "heater",
+                            "state": [
+                                {
+                                    "code": 5,
+                                    "description": "Мощность: 85%",
+                                    "name": "Включен"
+                                }
+                            ]
+                        }
+                    ],
+                    "state": [
+                        {
+                            "code": 40,
+                            "description": "Температура цилиндра: 235°C",
+                            "name": "Нагрев"
+                        }
+                    ]
+                },
+                {
+                    "device_id": "hydraulic_system_001",
+                    "device_name": "Гидравлическая система",
+                    "device_type": "hydraulic_system",
+                    "errors": [
+                        {
+                            "code": 7205,
+                            "name": "Информация: Замена фильтра",
+                            "severity": "info",
+                            "timestamp": "2025-11-12T09:30:39.574120Z"
+                        }
+                    ],
+                    "state": [
+                        {
+                            "code": 35,
+                            "description": "Давление: 120 бар",
+                            "name": "Рабочее давление"
+                        }
+                    ]
+                }
+            ],
+            "serial_number": "IP3-2024-005",
+            "state": [
+                {
+                    "code": 220,
+                    "description": "Цикл литья: 45 сек, температура: 240°C",
+                    "name": "Литье под давлением"
+                }
+            ]
+        },
+        {
+            "device_id": "laser_cutter_luch_pro_001",
+            "device_name": "Лазерный резак 'Луч-Про'",
+            "device_type": "laser_cutter",
+            "errors": [
+                {
+                    "code": 3802,
+                    "name": "Требуется очистка линз",
+                    "severity": "warning",
+                    "timestamp": "2025-11-12T15:20:39.574124Z"
+                }
+            ],
+            "parts": [
+                {
+                    "device_id": "laser_head_001",
+                    "device_name": "Лазерная головка",
+                    "device_type": "laser_head",
+                    "parts": [
+                        {
+                            "device_id": "focus_system_001",
+                            "device_name": "Система фокусировки",
+                            "device_type": "optical_system",
+                            "state": [
+                                {
+                                    "code": 8,
+                                    "description": "Фокусное расстояние: 127.5 мм",
+                                    "name": "Автофокус"
+                                }
+                            ]
+                        }
+                    ],
+                    "state": [
+                        {
+                            "code": 20,
+                            "description": "Мощность лазера: 2.5 кВт",
+                            "name": "Излучение"
+                        }
+                    ]
+                },
+                {
+                    "device_id": "laser_cooling_001",
+                    "device_name": "Система охлаждения лазера",
+                    "device_type": "cooling_system",
+                    "state": [
+                        {
+                            "code": 12,
+                            "description": "Температура воды: 18°C",
+                            "name": "Циркуляция"
+                        }
+                    ]
+                }
+            ],
+            "serial_number": "LCP-2024-006",
+            "state": [
+                {
+                    "code": 190,
+                    "description": "Резка листа нержавеющей стали 3мм",
+                    "name": "Резка металла"
+                }
+            ]
+        },
+        {
+            "device_id": "agv_loader_001",
+            "device_name": "Автоматический складской погрузчик",
+            "device_type": "agv",
+            "errors": [
+                {
+                    "code": 8901,
+                    "name": "Слабый сигнал навигации",
+                    "severity": "info",
+                    "timestamp": "2025-11-12T14:55:39.574127Z"
+                }
+            ],
+            "parts": [
+                {
+                    "device_id": "navigation_system_001",
+                    "device_name": "Навигационная система",
+                    "device_type": "navigation",
+                    "parts": [
+                        {
+                            "device_id": "lidar_001",
+                            "device_name": "Лидар",
+                            "device_type": "sensor",
+                            "state": [
+                                {
+                                    "code": 1,
+                                    "description": "Частота: 15 Гц",
+                                    "name": "Сканирование"
+                                }
+                            ]
+                        }
+                    ],
+                    "state": [
+                        {
+                            "code": 60,
+                            "description": "Точность позиционирования: ±5 мм",
+                            "name": "SLAM навигация"
+                        }
+                    ]
+                },
+                {
+                    "device_id": "lifting_mechanism_001",
+                    "device_name": "Подъемный механизм",
+                    "device_type": "lifting_system",
+                    "state": [
+                        {
+                            "code": 45,
+                            "description": "Высота подъема: 1.2 метра",
+                            "name": "Поднят"
+                        }
+                    ]
+                }
+            ],
+            "serial_number": "AGV-2024-007",
+            "state": [
+                {
+                    "code": 170,
+                    "description": "Маршрут: зона А -> зона Б, груз: 450кг",
+                    "name": "Перемещение с грузом"
+                }
+            ]
+        }
+    ],
+    "system_name": "Производственный мониторинг v2.0",
+    "timestamp": "2025-11-12T18:29:39.574068Z"
+}

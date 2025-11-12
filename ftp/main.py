@@ -10,7 +10,9 @@ from config import Config
 
 class AdapterHandler(FTPHandler):
     def on_file_received(self, file):
-
+        filename = os.path.basename(file)
+        if not filename.startswith(Config.system_type_name) and filename.endswith('.emps'):
+            raise Exception('Неверный формат данных')
         try:
             with open(file, 'r', encoding='utf-8') as file_handler:
                 data = json.load(file_handler)

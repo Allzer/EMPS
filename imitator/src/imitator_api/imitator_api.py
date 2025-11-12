@@ -44,7 +44,7 @@ async def send_to_ftp(req: Request, filename: str = Form("production_data")):
         basedir = os.path.abspath(os.path.dirname(__file__))
         output_dir = str(os.path.join(basedir, OUTPUT_DIR_IM))
         output_path = os.path.join(os.path.dirname(basedir), output_dir)
-        file = f'EMPS_{datetime.now().strftime("%Y_%m_%d_%H_%M_%S_%f")}.json'
+        file = f'EMPS_{datetime.now().strftime("%Y_%m_%d_%H_%M_%S_%f")}.emps'
 
         file_path = os.path.join(output_path, file)
 

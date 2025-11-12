@@ -7,3 +7,5 @@ class Config():
     USER_PSW = '12345'
 
     ADAPTER_URL = 'http://0.0.0.0:7000'
+
+    system_type_name = 'EMPS'
