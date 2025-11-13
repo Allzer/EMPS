@@ -2,7 +2,6 @@ import json
 from fastapi import FastAPI, Request
 import requests
 import uvicorn
-from config import Config
 
 app = FastAPI()
 
@@ -10,10 +9,8 @@ app = FastAPI()
 async def post_ftp_data(request: Request):
     data = await request.json()
     print(json.dumps(data, indent=4, sort_keys=True, ensure_ascii=False))
-
-    monitoring_url = Config.MONITORING_URL
-    response = requests.post(url=monitoring_url, data=json.dumps(data, ensure_ascii=False).encode('utf-8'))
+    
     return 'ok'
 
 if __name__ == '__main__':
-    uvicorn.run('run:app', host='0.0.0.0', port=7000, reload=True)
+    uvicorn.run('run:app', host='0.0.0.0', port=6000, reload=True)
