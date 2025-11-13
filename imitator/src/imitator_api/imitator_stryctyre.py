@@ -138,18 +138,16 @@ EMPS_STRYCTYRE = {"timestamp": datetime.now().isoformat() + "Z",
                                 "description": "Ток: 180А, напряжение: 22В"
                             }
                         ],
-                        "parts": [
+                    },    
+                    {
+                        "device_name": "Датчик температуры горелки",
+                        "device_id": "sensor_torch_temp_001",
+                        "device_type": "temperature_sensor",
+                        "state": [
                             {
-                                "device_name": "Датчик температуры горелки",
-                                "device_id": "sensor_torch_temp_001",
-                                "device_type": "temperature_sensor",
-                                "state": [
-                                    {
-                                        "code": 1,
-                                        "name": "Норма",
-                                        "description": "Температура в пределах нормы: 45°C"
-                                    }
-                                ]
+                                "code": 1,
+                                "name": "Норма",
+                                "description": "Температура в пределах нормы: 45°C"
                             }
                         ]
                     },
@@ -254,18 +252,16 @@ EMPS_STRYCTYRE = {"timestamp": datetime.now().isoformat() + "Z",
                                 "description": "Температура цилиндра: 235°C"
                             }
                         ],
-                        "parts": [
+                    },
+                    {
+                        "device_name": "ТЭН цилиндра",
+                        "device_id": "heater_cartridge_001",
+                        "device_type": "heater",
+                        "state": [
                             {
-                                "device_name": "ТЭН цилиндра",
-                                "device_id": "heater_cartridge_001",
-                                "device_type": "heater",
-                                "state": [
-                                    {
-                                        "code": 5,
-                                        "name": "Включен",
-                                        "description": "Мощность: 85%"
-                                    }
-                                ]
+                                "code": 5,
+                                "name": "Включен",
+                                "description": "Мощность: 85%"
                             }
                         ]
                     },
@@ -323,18 +319,16 @@ EMPS_STRYCTYRE = {"timestamp": datetime.now().isoformat() + "Z",
                                 "description": "Мощность лазера: 2.5 кВт"
                             }
                         ],
-                        "parts": [
+                    },
+                    {
+                        "device_name": "Система фокусировки",
+                        "device_id": "focus_system_001",
+                        "device_type": "optical_system",
+                        "state": [
                             {
-                                "device_name": "Система фокусировки",
-                                "device_id": "focus_system_001",
-                                "device_type": "optical_system",
-                                "state": [
-                                    {
-                                        "code": 8,
-                                        "name": "Автофокус",
-                                        "description": "Фокусное расстояние: 127.5 мм"
-                                    }
-                                ]
+                                "code": 8,
+                                "name": "Автофокус",
+                                "description": "Фокусное расстояние: 127.5 мм"
                             }
                         ]
                     },
@@ -383,19 +377,17 @@ EMPS_STRYCTYRE = {"timestamp": datetime.now().isoformat() + "Z",
                                 "name": "SLAM навигация",
                                 "description": "Точность позиционирования: ±5 мм"
                             }
-                        ],
-                        "parts": [
+                        ]
+                    },
+                    {
+                        "device_name": "Лидар",
+                        "device_id": "lidar_001",
+                        "device_type": "sensor",
+                        "state": [
                             {
-                                "device_name": "Лидар",
-                                "device_id": "lidar_001",
-                                "device_type": "sensor",
-                                "state": [
-                                    {
-                                        "code": 1,
-                                        "name": "Сканирование",
-                                        "description": "Частота: 15 Гц"
-                                    }
-                                ]
+                                "code": 1,
+                                "name": "Сканирование",
+                                "description": "Частота: 15 Гц"
                             }
                         ]
                     },
