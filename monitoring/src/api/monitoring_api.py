@@ -1,5 +1,10 @@
 import json
 from fastapi import APIRouter, Request
+from sqlalchemy import select
+
+from database import SessionDep
+from src.models.monitoring_models import SystemsModel
+from src.api.scripts import check_system, create_system
 
 router = APIRouter(
     prefix="/monitoring",
@@ -19,6 +24,18 @@ async def post_ftp_data(request: Request):
     return 'ok'
 
 @router.post('/create_system')
-async def post_ftp_data(request: Request):
+async def post_ftp_data(request: Request, session : SessionDep):
     data = await request.json()
-    return 'система создана'
+
+    
+    system_id = await check_system(data)
+
+    system = select(SystemsModel).where(SystemsModel.id == system_id)
+    query = await session.execute(system)
+    query = query.scalars().first()
+
+    return {
+        'system_name': query.system_name,
+        'system_key': query.system_key,
+        'list_of_sensors': {}
+    }
