@@ -24,7 +24,7 @@ async def post_ftp_data(request: Request):
     return 'ok'
 
 @router.post('/create_system')
-async def post_ftp_data(request: Request, session : SessionDep):
+async def create_system(request: Request, session : SessionDep):
     data = await request.json()
 
     
@@ -39,3 +39,7 @@ async def post_ftp_data(request: Request, session : SessionDep):
         'system_key': query.system_key,
         'list_of_sensors': {}
     }
+
+@router.post('/add_sensors_info')
+async def add_sensors_info(request: Request, session : SessionDep):
+    pass
