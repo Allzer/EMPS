@@ -27,7 +27,6 @@ async def post_ftp_data(request: Request):
 async def create_system(request: Request, session : SessionDep):
     data = await request.json()
 
-    
     system_id = await check_system(data)
 
     system = select(SystemsModel).where(SystemsModel.id == system_id)
@@ -35,6 +34,7 @@ async def create_system(request: Request, session : SessionDep):
     query = query.scalars().first()
 
     return {
+        'system_id': system_id,
         'system_name': query.system_name,
         'system_key': query.system_key,
         'list_of_sensors': {}
@@ -42,4 +42,5 @@ async def create_system(request: Request, session : SessionDep):
 
 @router.post('/add_sensors_info')
 async def add_sensors_info(request: Request, session : SessionDep):
-    pass
+    data = await request.json()
+    
