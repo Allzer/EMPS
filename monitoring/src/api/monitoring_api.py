@@ -4,7 +4,7 @@ from sqlalchemy import select
 
 from database import SessionDep
 from src.models.monitoring_models import SystemsModel
-from src.api.scripts import check_system, create_system
+from src.api.scripts import add_sensor, check_system, create_system
 
 router = APIRouter(
     prefix="/monitoring",
@@ -40,7 +40,9 @@ async def create_system(request: Request, session : SessionDep):
         'list_of_sensors': {}
     }
 
-@router.post('/add_sensors_info')
+@router.post('/add_sensors')
 async def add_sensors_info(request: Request, session : SessionDep):
     data = await request.json()
-    
+    await add_sensor(data)
+    return 'Сенсоры добавлены успешно'
+

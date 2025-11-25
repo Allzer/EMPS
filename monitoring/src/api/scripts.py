@@ -2,7 +2,7 @@ import uuid
 
 from sqlalchemy import select
 from database import async_session_maker
-from src.models.monitoring_models import SystemsModel
+from src.models.monitoring_models import SensorsModel, SystemsModel
 
 async def check_system(data):
     async with async_session_maker() as session:
@@ -29,3 +29,17 @@ async def create_system(data):
         session.add(systems)
         await session.commit()
     return id_system
+
+async def add_sensor(data):
+    async with async_session_maker() as session:
+        for sensor in data:
+            id_sensors = uuid.uuid4()
+
+            sensors = SensorsModel(
+                id = id_sensors,
+                system_id = sensor['system_id'],
+                sensor_name = sensor['sensor_name'],
+            )
+
+            session.add(sensors)
+        await session.commit()

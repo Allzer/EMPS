@@ -3,7 +3,7 @@ from sqlalchemy import INTEGER, Column, ForeignKey, Uuid, TEXT
 from database import Base
 
 __all__ = [
-    'SystemsModel'
+    'SystemsModel', 'SensorsModel', 'SensorsStateModel'
 ]
 
 class SystemsModel(Base):
@@ -24,5 +24,13 @@ class SensorsModel(Base):
     system_id = Column(Uuid, ForeignKey('systems.id'))
 
     sensor_name = Column(TEXT, nullable=False)
+    
+class SensorsStateModel(Base):
+
+    __tablename__ = 'sensors_state'
+
+    id = Column(Uuid, primary_key=True)
+    sensor_id = Column(Uuid, ForeignKey('sensors.id'))
+
     state = Column(INTEGER, nullable=False)
     description = Column(INTEGER, nullable=False)
