@@ -51,3 +51,6 @@ async def add_sensors_info(request: Request):
     await add_sensor(data)
     return 'Сенсоры обновлены или добавлены'
 
+@router.post('/add_sensor_states')
+async def add_sensor_states(request: Request):
+    data = await request.json()

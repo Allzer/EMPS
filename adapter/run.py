@@ -3,7 +3,6 @@ import json
 import socket
 from fastapi import FastAPI, Request
 import requests
-import uvicorn
 from config import Config
 
 app = FastAPI()
@@ -49,7 +48,10 @@ def add_sensors(data, sys_key):
         json=adapted_data
     )
     print(res.text)
-    return res.json()
+    return adapted_data
+
+def add_sensor_state(data):
+    print(json.dumps(data, indent=4, ensure_ascii=False))
 
 @app.post('/')
 async def post_ftp_data(request: Request):
@@ -72,9 +74,9 @@ def udp_server():
             for info_packet in data_arr:
                 final_str += info_packet['data']
             final_dict = json.loads(final_str)
-            # print(json.dumps(final_dict, indent=4, ensure_ascii=False))
 
-            add_sensors(final_dict['devices'], SYSTEM['system_id'])
+            adapted_data = add_sensors(final_dict['devices'], SYSTEM['system_id'])
+            add_sensor_state(final_dict)
 
         except Exception as e:
             print(e)
