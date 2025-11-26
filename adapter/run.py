@@ -50,8 +50,36 @@ def add_sensors(data, sys_key):
     print(res.text)
     return adapted_data
 
+def pars_state(data):
+    result = []
+    for device in data:
+        device_name = device.get('device_name')
+        device_state = device.get('state')
+        device_errors = device.get('errors')
+
+        final_dict = {
+            'device_name': device_name,
+            'device_state': device_state['code']
+        }
+        if device_errors:
+            for error in device_errors:
+                final_dict['description'] = error['name']
+        result.append(final_dict)
+    return result
+
 def add_sensor_state(data):
-    print(json.dumps(data, indent=4, ensure_ascii=False))
+    result = pars_state(data)
+    for device in data:
+        device_parts = device.get('parts')
+        if device_parts:
+            result.extend(pars_state(device_parts))
+
+    res = requests.post(
+        url='http://0.0.0.0:5000/monitoring/add_sensor_states',
+        json=result
+    )
+    print(res.text)
+    return res.json()
 
 @app.post('/')
 async def post_ftp_data(request: Request):
@@ -75,9 +103,8 @@ def udp_server():
                 final_str += info_packet['data']
             final_dict = json.loads(final_str)
 
-            adapted_data = add_sensors(final_dict['devices'], SYSTEM['system_id'])
-            add_sensor_state(final_dict)
-
+            add_sensors(final_dict['devices'], SYSTEM['system_id'])
+            add_sensor_state(final_dict['devices'])
         except Exception as e:
             print(e)
 

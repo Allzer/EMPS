@@ -1,4 +1,3 @@
-import json
 from fastapi import APIRouter, Request
 from sqlalchemy import select
 
@@ -54,3 +53,5 @@ async def add_sensors_info(request: Request):
 @router.post('/add_sensor_states')
 async def add_sensor_states(request: Request):
     data = await request.json()
+    print(data)
+    return 'Состояния добавлены'
