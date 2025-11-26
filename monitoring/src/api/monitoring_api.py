@@ -1,9 +1,10 @@
+import json
 from fastapi import APIRouter, Request
 from sqlalchemy import select
 
 from database import SessionDep
 from src.models.monitoring_models import SensorsModel, SystemsModel
-from src.api.scripts import add_sensor, check_system
+from src.api.scripts import add_sensor, add_states, check_system
 
 router = APIRouter(
     prefix="/monitoring",
@@ -44,6 +45,7 @@ async def create_system(request: Request, session : SessionDep):
         'list_of_sensors': result_dict
     }
 
+
 @router.post('/add_sensors')
 async def add_sensors_info(request: Request):
     data = await request.json()
@@ -53,5 +55,5 @@ async def add_sensors_info(request: Request):
 @router.post('/add_sensor_states')
 async def add_sensor_states(request: Request):
     data = await request.json()
-    print(data)
+    await add_states(data)
     return 'Состояния добавлены'

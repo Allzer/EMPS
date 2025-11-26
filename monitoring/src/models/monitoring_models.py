@@ -33,4 +33,4 @@ class SensorsStateModel(Base):
     sensor_id = Column(Uuid, ForeignKey('sensors.id'))
 
     state = Column(INTEGER, nullable=False)
-    description = Column(INTEGER, nullable=False)
+    description = Column(TEXT, nullable=True)
