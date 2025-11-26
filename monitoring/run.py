@@ -1,16 +1,5 @@
-import json
-from fastapi import FastAPI, Request
-import requests
 import uvicorn
-
-app = FastAPI()
-
-@app.post('/')
-async def post_ftp_data(request: Request):
-    data = await request.json()
-    print(json.dumps(data, indent=4, sort_keys=True, ensure_ascii=False))
-    
-    return 'ok'
+from src.main import app
 
 if __name__ == '__main__':
-    uvicorn.run('run:app', host='0.0.0.0', port=6000, reload=True)
+    uvicorn.run('run:app', host='0.0.0.0', port=5000, reload=True)
