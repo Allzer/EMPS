@@ -32,14 +32,19 @@ async def create_system(data):
 
 async def add_sensor(data):
     async with async_session_maker() as session:
-        for sensor in data:
-            id_sensors = uuid.uuid4()
+        for sensor_device in data:
+            sensor = select(SensorsModel).where(SensorsModel.sensor_name == sensor_device['sensor_name'])
+            query = await session.execute(sensor)
+            query = query.scalars().first()
+            
+            if not query:
+                id_sensors = uuid.uuid4()
 
-            sensors = SensorsModel(
-                id = id_sensors,
-                system_id = sensor['system_id'],
-                sensor_name = sensor['sensor_name'],
-            )
+                sensors = SensorsModel(
+                    id = id_sensors,
+                    system_id = sensor_device['system_id'],
+                    sensor_name = sensor_device['sensor_name'],
+                )
 
-            session.add(sensors)
-        await session.commit()
+                session.add(sensors)
+                await session.commit()

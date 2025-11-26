@@ -4,7 +4,7 @@ from sqlalchemy import select
 
 from database import SessionDep
 from src.models.monitoring_models import SensorsModel, SystemsModel
-from src.api.scripts import add_sensor, check_system, create_system
+from src.api.scripts import add_sensor, check_system
 
 router = APIRouter(
     prefix="/monitoring",
@@ -15,13 +15,6 @@ router = APIRouter(
 async def get_info(request: Request):
     """Главная страница с данными и формами"""
     return 'monitoring'
-
-@router.post('/')
-async def post_ftp_data(request: Request):
-    data = await request.json()
-    # print(json.dumps(data, indent=4, sort_keys=True, ensure_ascii=False))
-    
-    return 'ok'
 
 @router.post('/create_system')
 async def create_system(request: Request, session : SessionDep):
@@ -53,8 +46,8 @@ async def create_system(request: Request, session : SessionDep):
     }
 
 @router.post('/add_sensors')
-async def add_sensors_info(request: Request, session : SessionDep):
+async def add_sensors_info(request: Request):
     data = await request.json()
     await add_sensor(data)
-    return 'Сенсоры добавлены успешно'
+    return 'Сенсоры обновлены или добавлены'
 
