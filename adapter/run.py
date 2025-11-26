@@ -20,10 +20,36 @@ async def create_or_check_system():
             url=f'http://0.0.0.0:5000/monitoring/create_system',
             json=system_params
         )
-        print(res.text)
+        print(json.dumps(res.json(), indent=4, sort_keys=True, ensure_ascii=False))
         return res.json()
     except Exception as e:
         print(e)
+
+def add_sensors(data, sys_key):
+    adapted_data = []
+    for device in data:
+        device_name = device.get('device_name')
+        device_parts = device.get('parts')
+        device_dict_for_monitoring = {
+            'sensor_name': device_name,
+            'system_id': sys_key,
+        }
+        adapted_data.append(device_dict_for_monitoring)
+        if device_parts:
+            for device in device_parts:
+                name = device.get('device_name')
+                device_dict_for_monitoring = {
+                    'sensor_name': name,
+                    'system_id': sys_key,
+                }
+                adapted_data.append(device_dict_for_monitoring)
+
+    res = requests.post(
+        url='http://0.0.0.0:5000/monitoring/add_sensors',
+        json=adapted_data
+    )
+    print(res.text)
+    return res.json()
 
 @app.post('/')
 async def post_ftp_data(request: Request):
@@ -46,11 +72,13 @@ def udp_server():
             for info_packet in data_arr:
                 final_str += info_packet['data']
             final_dict = json.loads(final_str)
-            print(json.dumps(final_dict, indent=4, ensure_ascii=False))
+            # print(json.dumps(final_dict, indent=4, ensure_ascii=False))
+
+            add_sensors(final_dict['devices'], SYSTEM['system_id'])
+
         except Exception as e:
             print(e)
 
 if __name__ == '__main__':
     SYSTEM = asyncio.run(create_or_check_system())
     udp_server()
-    # uvicorn.run('run:app', host='0.0.0.0', port=7000, reload=True)

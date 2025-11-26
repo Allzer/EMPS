@@ -5,7 +5,7 @@ EMPS_STRYCTYRE = {"timestamp": datetime.now().isoformat() + "Z",
         "system_name": "Производственный мониторинг v2.0",
         "devices": [
             {
-                "device_name": "Токарно-фрезерный станок ЧПУ 'Вектор-5000'",
+                "device_name": "Токарно-фрезерный станок ЧПУ 'Вектор-5000",
                 "device_id": "stank_vector_5000_001",
                 "device_type": "cnc_machine",
                 "serial_number": "V5K-2024-001",
@@ -62,13 +62,12 @@ EMPS_STRYCTYRE = {"timestamp": datetime.now().isoformat() + "Z",
                                 "timestamp": datetime.now().replace(hour=10, minute=15).isoformat() + "Z"
                             }
                         ],
-                        "parts": [
-                            {
-                                "device_name": "Датчик давления СОЖ",
-                                "device_id": "sensor_coolant_pressure_001",
-                                "device_type": "sensor",
-                            }
-                        ]
+                        
+                    },
+                    {
+                        "device_name": "Датчик давления СОЖ",
+                        "device_id": "sensor_coolant_pressure_001",
+                        "device_type": "sensor",
                     }
                 ]
             },
@@ -100,7 +99,6 @@ EMPS_STRYCTYRE = {"timestamp": datetime.now().isoformat() + "Z",
                     }
                 ]
             },
-            # Новые устройства
             {
                 "device_name": "Роботизированный сварочный комплекс 'Аргон-M'",
                 "device_id": "welder_argon_m_001",
