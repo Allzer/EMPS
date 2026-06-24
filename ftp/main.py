@@ -56,6 +56,8 @@ if __name__ == '__main__':
     #Обозначение каталога куда будет записан файл
     abs_folder_path = os.path.abspath(os.path.dirname(__file__))
     inputDir = os.path.join(abs_folder_path, Config.FOLDER_PATH)
+    if not os.path.isdir(inputDir):
+        os.mkdir(inputDir)        
 
     #Добавляем пользователя
     user = DummyAuthorizer()
