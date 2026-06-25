@@ -18,14 +18,14 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 templates_path = os.path.join(current_dir, "..", "..", "templates")
 templates = Jinja2Templates(directory=templates_path)
 
-@router.get('/')
-async def get_info(request: Request):
-    """Главная страница с данными и формами"""
-    return templates.TemplateResponse("imitator_ui.html", {
-        "request": request,
-        "data": EMPS_STRYCTYRE,
-        "timestamp": datetime.now().isoformat() + "Z"
-    })
+# @router.get('/')
+# async def get_info(request: Request):
+#     """Главная страница с данными и формами"""
+#     return templates.TemplateResponse("imitator_ui.html", {
+#         "request": request,
+#         "data": EMPS_STRYCTYRE,
+#         "timestamp": datetime.now().isoformat() + "Z"
+#     })
 
 @router.post('/send-to-ftp')
 async def send_to_ftp(req: Request, filename: str = Form("production_data")):
@@ -47,8 +47,11 @@ async def send_to_ftp(req: Request, filename: str = Form("production_data")):
         file = f'EMPS_{datetime.now().strftime("%Y_%m_%d_%H_%M_%S_%f")}.emps'
 
         file_path = os.path.join(output_path, file)
+        
+        if not os.path.isdir(output_path):
+            os.mkdir(output_path) 
 
-        print(json.dumps(EMPS_STRYCTYRE, indent=4, sort_keys=True, ensure_ascii=False))
+        # print(json.dumps(EMPS_STRYCTYRE, indent=4, sort_keys=True, ensure_ascii=False))
 
         with open(file_path, "w+", encoding='utf-8') as fileHandler:
             fileHandler.write(json.dumps(EMPS_STRYCTYRE, indent=4, sort_keys=True, ensure_ascii=False))
@@ -59,9 +62,4 @@ async def send_to_ftp(req: Request, filename: str = Form("production_data")):
         session.quit
         os.remove(file_path)
 
-    return templates.TemplateResponse("imitator_ui.html", {
-        "request": req,
-        "data": EMPS_STRYCTYRE,
-        "message": f"Данные отправлены на FTP в файл: {filename}",
-        "timestamp": datetime.now().isoformat() + "Z"
-    })
+    return 200, 'ok'

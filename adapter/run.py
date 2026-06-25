@@ -16,7 +16,7 @@ async def create_or_check_system():
         }
         
         res = requests.post(
-            url=f'http://0.0.0.0:5000/monitoring/create_system',
+            url=f'http://127.0.0.1:5000/monitoring/create_system',
             json=system_params
         )
         print(json.dumps(res.json(), indent=4, sort_keys=True, ensure_ascii=False))
@@ -44,7 +44,7 @@ def add_sensors(data, sys_key):
                 adapted_data.append(device_dict_for_monitoring)
 
     res = requests.post(
-        url='http://0.0.0.0:5000/monitoring/add_sensors',
+        url='http://127.0.0.1:5000/monitoring/add_sensors',
         json=adapted_data
     )
     print(res.text)
@@ -75,7 +75,7 @@ def add_sensor_state(data):
             result.extend(pars_state(device_parts))
 
     res = requests.post(
-        url='http://0.0.0.0:5000/monitoring/add_sensor_states',
+        url='http://127.0.0.1:5000/monitoring/add_sensor_states',
         json=result
     )
     print(res.text)
@@ -86,7 +86,7 @@ async def post_ftp_data(request: Request):
     data = await request.json()
     monitoring_url = Config.MONITORING_URL
     response = requests.post(url=monitoring_url, data=json.dumps(data, ensure_ascii=False).encode('utf-8'))
-    return 'ok'
+    return response
 
 def udp_server():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
